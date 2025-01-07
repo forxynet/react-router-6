@@ -1,4 +1,5 @@
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Link, Route, Routes, Navigate } from 'react-router-dom'
+import { useState } from 'react'
 
 // pages
 import Home from './pages/Home'
@@ -6,7 +7,10 @@ import About from './pages/About'
 import Products from './pages/Products'
 import ProductDetails from './pages/ProductDetails'
 
+
 function App() {
+  const [cartIsEmty] = useState(false);
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -18,15 +22,14 @@ function App() {
         </nav>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/products/:id" element={<ProductDetails />} />
+          <Route path="/about/*" element={<About />} />
+          <Route path="/products/:id/*" element={<ProductDetails />} />
           <Route path="/products" element={<Products />} />
-          <Route path='/test' element={(
-            <div>
-              <h2>Test Page</h2>
-              <p>Hello</p>
-            </div>
-          )} />
+          <Route path='/redirect' element={<Navigate to='/about' />} />
+          <Route
+            path="/chackout"
+            element={cartIsEmty ? <Navigate to="/products" /> : <p>checkout</p>}
+          />
         </Routes>
       </BrowserRouter>
     </div>
